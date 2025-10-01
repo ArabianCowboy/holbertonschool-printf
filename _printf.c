@@ -1,30 +1,6 @@
 #include "main.h"
 
 /**
- * handle_spec - dispatches a single format specifier
- * @sp: specifier character
- * @ap: variadic argument list
- *
- * Return: number of chars printed, or -1 on error
- */
-static int handle_spec(char sp, va_list ap)
-{
-	if (sp == 'c')
-		return (print_c(ap));
-	else if (sp == 's')
-		return (print_s(ap));
-	else if (sp == '%')
-		return (print_pct(ap));
-
-	/* Unknown specifier in Task 0: print literally as "%X" */
-	if (_putchar('%') == -1)
-		return (-1);
-	if (_putchar(sp) == -1)
-		return (-1);
-	return (2);
-}
-
-/**
  * _printf - produces output according to a format
  * @format: format string containing directives
  *
@@ -33,42 +9,42 @@ static int handle_spec(char sp, va_list ap)
  */
 int _printf(const char *format, ...)
 {
-	int i = 0;
-	int count = 0;
-	int r = 0;
+	int i = 0, count = 0, r;
 	va_list ap;
 
-	if (format == NULL)
+	if (!format)
 		return (-1);
 
 	va_start(ap, format);
-	while (format[i] != '\0')
+	while (format[i])
 	{
 		if (format[i] != '%')
 		{
-			if (_putchar(format[i]) == -1)
-			{
-				va_end(ap);
-				return (-1);
-			}
+			if (_putchar(format[i++]) == -1)
+			{ va_end(ap); return (-1); }
 			count++;
-			i++;
 			continue;
 		}
 
 		i++; /* skip '%' */
-		if (format[i] == '\0') /* lone trailing '%' */
+		if (!format[i]) /* lone trailing '%' is an error */
+		{ va_end(ap); return (-1); }
+
+		if (format[i] == 'c')
+			r = print_c(ap);
+		else if (format[i] == 's')
+			r = print_s(ap);
+		else if (format[i] == '%')
+			r = print_pct(ap);
+		else /* Unknown specifier in Task 0: print literally as "%X" */
 		{
-			va_end(ap);
-			return (-1);
+			if (_putchar('%') == -1 || _putchar(format[i]) == -1)
+			{ va_end(ap); return (-1); }
+			r = 2;
 		}
 
-		r = handle_spec(format[i], ap);
 		if (r == -1)
-		{
-			va_end(ap);
-			return (-1);
-		}
+		{ va_end(ap); return (-1); }
 		count += r;
 		i++;
 	}
