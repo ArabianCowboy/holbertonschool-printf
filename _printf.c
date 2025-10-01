@@ -15,8 +15,10 @@ static int handle_spec(char sp, va_list ap)
 		return (print_s(ap));
 	if (sp == '%')
 		return (print_pct(ap));
+	if (sp == 'd' || sp == 'i')
+		return (print_int(ap));
 
-	/* Unknown for Task 0: print literally as "%X" */
+	/* Unknown for Task 0/1: print literally as "%X" */
 	if (_putchar('%') == -1)
 		return (-1);
 	if (_putchar(sp) == -1)
@@ -77,7 +79,7 @@ static int process_format(const char *format, va_list ap)
 
 /**
  * _printf - produces output according to a format
- * @format: format string (Task 0: %c, %s, %%)
+ * @format: format string (now handles %c, %s, %%, %d, %i)
  *
  * Return: number of printed chars, or -1 on error
  */

@@ -16,3 +16,7 @@ int print_s(va_list ap);
 int print_pct(va_list ap);
 
 #endif /* MAIN_H */
+
+/* Task 1: integers */
+int print_int(va_list ap);
+int print_number(long n);
