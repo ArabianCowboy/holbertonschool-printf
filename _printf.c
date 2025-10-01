@@ -11,7 +11,8 @@
  *     - %% : prints a literal percent sign
  *
  * Return: number of characters printed (excluding the null byte),
- *         or -1 if an error occurs or if format is NULL.
+ *         or -1 if an error occurs or if format is NULL
+ *         or if a trailing '%' is present with no specifier.
  */
 int _printf(const char *format, ...)
 {
@@ -38,8 +39,13 @@ int _printf(const char *format, ...)
 
 		/* Encountered '%' */
 		i++;
+
+		/* Lone trailing '%' => error per project checker */
 		if (format[i] == '\0')
-			break;
+		{
+			va_end(ap);
+			return (-1);
+		}
 
 		if (format[i] == 'c')
 		{
@@ -59,7 +65,6 @@ int _printf(const char *format, ...)
 
 			if (!s)
 				s = "(null)";
-
 			while (s[j] != '\0')
 			{
 				if (_putchar(s[j]) == -1)
@@ -82,7 +87,7 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			/* Unknown specifier in Task 0: print it literally as "%X" */
+			/* Unknown specifier for Task 0: print literally as "%X" */
 			if (_putchar('%') == -1 || _putchar(format[i]) == -1)
 			{
 				va_end(ap);
