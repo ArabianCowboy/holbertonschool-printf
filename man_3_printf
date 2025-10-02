@@ -17,7 +17,7 @@ Limitations:
 - Does not handle precision
 - Does not handle length modifiers
 .SH RETURN VALUE
-The number of characters printed (excluding the terminating null byte).
+The number of characters printed (excluding the null byte).
 .SH AUTHORS
 Mohammed Fouda and Alharbi Reja Turki
 
