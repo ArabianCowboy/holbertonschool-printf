@@ -1,0 +1,12 @@
+.TH man 3 "02 October 2025" "1.0" "Custom printf"
+.SH NAME
+_printf \- custom implementation of printf function
+.SH SYNOPSIS
+.B int _printf(const char *format, ...);
+.SH DESCRIPTION
+The _printf function produces output according to a format string.
+It handles conversion specifiers %d, %i, %c, %s, %%, with Betty compliance.
+.SH RETURN VALUE
+The number of characters printed (excluding the null byte).
+.SH AUTHORS
+Mohammed Fouda and Alharbi Reja Turki
